@@ -18,8 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
-    CardView payments, users;
+    CardView payments, users, payouts;
     private DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         this.setTitle("Dashboard");
         getSupportActionBar().setElevation(0);
         users = findViewById(R.id.users);
+        payouts = findViewById(R.id.payouts);
         payments = findViewById(R.id.payments);
         mDatabase = FirebaseDatabase.getInstance("https://noorenikah-default-rtdb.firebaseio.com/").getReference();
         payments.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, UserList.class));
+            }
+        });
+        payouts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Payouts.class));
             }
         });
         updateFcmKey();

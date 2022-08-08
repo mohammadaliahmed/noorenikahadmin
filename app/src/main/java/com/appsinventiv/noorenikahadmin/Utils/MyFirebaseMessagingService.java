@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.appsinventiv.noorenikahadmin.Activities.MainActivity;
 import com.appsinventiv.noorenikahadmin.Activities.PaymentsHistory;
+import com.appsinventiv.noorenikahadmin.Activities.Payouts;
 import com.appsinventiv.noorenikahadmin.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -71,6 +72,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        } else if (type.equalsIgnoreCase("marketing")) {
         if (type.equals("payment")) {
             resultIntent = new Intent(this, PaymentsHistory.class);
+
+        }
+        else if (type.equals("payout")) {
+            resultIntent = new Intent(this, Payouts.class);
 
         }
 //        }

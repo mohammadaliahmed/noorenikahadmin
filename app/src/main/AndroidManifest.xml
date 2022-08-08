@@ -29,6 +29,7 @@
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.PaymentsHistory" />
         <activity android:name=".Activities.UserList" />
+        <activity android:name=".Activities.Payouts" />
 
 
         <service android:name="com.appsinventiv.noorenikahadmin.Utils.MyFirebaseMessagingService"
