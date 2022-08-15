@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsinventiv.noorenikahadmin.Adapters.PaymentHistoryAdapter;
 import com.appsinventiv.noorenikahadmin.Models.ChatModel;
+import com.appsinventiv.noorenikahadmin.Models.NotificationModel;
 import com.appsinventiv.noorenikahadmin.Models.PaymentsModel;
 import com.appsinventiv.noorenikahadmin.Models.User;
 import com.appsinventiv.noorenikahadmin.R;
@@ -88,7 +89,8 @@ public class PaymentsHistory extends AppCompatActivity {
                             public void onSuccess(Void unused) {
 
                                 CommonUtils.showToast("Profile Approved");
-                                sendNotification(model.getPhone(),"Profile Approved","Your Profile is approved");
+                                sendNotification(model.getPhone(), "Profile Approved",
+                                        "Your Profile is approved", "profile");
 
                             }
                         });
@@ -113,7 +115,8 @@ public class PaymentsHistory extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void unused) {
                                 CommonUtils.showToast("Payment Approved");
-                                sendNotification(model.getPhone(),"Payment Approved","Your payment is approved");
+                                sendNotification(model.getPhone(), "Payment Approved",
+                                        "Your payment is approved", "payment");
                             }
                         });
             }
@@ -125,13 +128,13 @@ public class PaymentsHistory extends AppCompatActivity {
         dialog.show();
     }
 
-    private void sendNotification(String phone, String payment_approved, String your_payment_is_approved) {
+    private void sendNotification(String phone, String payment_approved, String your_payment_is_approved, String type) {
         mDatabase.child("Users").child(phone).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()!=null){
-                    User user=dataSnapshot.getValue(User.class);
-                    if(user!=null && user.getFcmKey()!=null){
+                if (dataSnapshot.getValue() != null) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user != null && user.getFcmKey() != null) {
                         NotificationAsync notificationAsync = new NotificationAsync(PaymentsHistory.this);
                         String NotificationTitle = payment_approved;
                         String NotificationMessage = your_payment_is_approved;
@@ -142,6 +145,16 @@ public class PaymentsHistory extends AppCompatActivity {
                                 NotificationMessage,
                                 "",
                                 "payment");
+                        String key = "" + System.currentTimeMillis();
+                        NotificationModel model = new NotificationModel(key, NotificationTitle,
+                                NotificationMessage, type, "https://icon-library.com/images/admin-icon-png/admin-icon-png-12.jpg",
+                                "admin", System.currentTimeMillis());
+                        mDatabase.child("Notifications").child(user.getPhone()).child(key).setValue(model);
+
+                        mDatabase.child("ReferralCodesHistory").child(user.getReferralCode())
+                                .child(user.getPhone()).child("paid").setValue(true);
+
+
                     }
                 }
             }

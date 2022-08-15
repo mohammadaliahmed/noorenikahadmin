@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsinventiv.noorenikahadmin.Adapters.PayoutsHistoryAdapter;
+import com.appsinventiv.noorenikahadmin.Models.NotificationModel;
 import com.appsinventiv.noorenikahadmin.Models.ReferralCodePaidModel;
 import com.appsinventiv.noorenikahadmin.Models.RequestPayoutModel;
 import com.appsinventiv.noorenikahadmin.Models.User;
 import com.appsinventiv.noorenikahadmin.R;
 import com.appsinventiv.noorenikahadmin.Utils.CommonUtils;
 import com.appsinventiv.noorenikahadmin.Utils.NotificationAsync;
+import com.appsinventiv.noorenikahadmin.Utils.SharedPrefs;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -102,6 +104,11 @@ public class Payouts extends AppCompatActivity {
                         NotificationMessage,
                         "",
                         "payout");
+                String key = "" + System.currentTimeMillis();
+                NotificationModel model = new NotificationModel(key, NotificationTitle,
+                        NotificationMessage, "payout", "https://icon-library.com/images/admin-icon-png/admin-icon-png-12.jpg", "admin", System.currentTimeMillis());
+                mDatabase.child("Notifications").child(user.getPhone()).child(key).setValue(model);
+
                 mDatabase.child("ReferralCodesHistory").child(user.getMyReferralCode()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
