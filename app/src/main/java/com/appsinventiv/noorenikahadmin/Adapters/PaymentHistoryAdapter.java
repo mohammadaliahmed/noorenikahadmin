@@ -61,8 +61,8 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
                 holder.paymentStatus.setBackgroundResource(R.drawable.pending);
             }
         }
-        holder.name.setText("Name: \n"+model.getName());
-        holder.phone.setText("Phone:\n0"+model.getPhone());
+        holder.name.setText("Name: \n" + model.getName());
+        holder.phone.setText("Phone:\n0" + model.getPhone());
         holder.date.setText("Date: \n" + CommonUtils.getFormattedDateOnly(model.getTime()));
 
         holder.approvePayment.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +77,12 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
                 callback.onProfilePayment(model);
             }
         });
+        holder.rejectPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onRejectedPayment(model);
+            }
+        });
     }
 
     @Override
@@ -88,7 +94,7 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
 
         TextView date, paymentStatus, name, phone;
         ImageView image;
-        Button approvePayment, approveProfile;
+        Button approvePayment, approveProfile, rejectPayment;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,6 +102,7 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
             paymentStatus = itemView.findViewById(R.id.paymentStatus);
             image = itemView.findViewById(R.id.image);
             approveProfile = itemView.findViewById(R.id.approveProfile);
+            rejectPayment = itemView.findViewById(R.id.rejectPayment);
             name = itemView.findViewById(R.id.name);
             approvePayment = itemView.findViewById(R.id.approvePayment);
             phone = itemView.findViewById(R.id.phone);
@@ -105,6 +112,8 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
 
     public interface PaymentHistoryAdapterCallback {
         public void onApprovePayment(PaymentsModel model);
+
+        public void onRejectedPayment(PaymentsModel model);
 
         public void onProfilePayment(PaymentsModel model);
     }

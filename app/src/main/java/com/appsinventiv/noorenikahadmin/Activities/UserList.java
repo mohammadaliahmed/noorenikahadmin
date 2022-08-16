@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserList extends AppCompatActivity {
@@ -58,6 +59,11 @@ public class UserList extends AppCompatActivity {
             public void onApproveProfile(User model) {
                 approveProfile(model);
             }
+
+            @Override
+            public void onRejectProfile(User model) {
+                rejectProfile(model);
+            }
         });
         recycler.setAdapter(adapter);
         getDatFromDB();
@@ -72,14 +78,45 @@ public class UserList extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                HashMap<String,Object> map=new HashMap<>();
+                map.put("rejected",false);
+                map.put("paid",true);
+
                 mDatabase.child("Users").child(model.getPhone())
-                        .child("paid").setValue(true)
+                        .updateChildren(map)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
 
                                 CommonUtils.showToast("Profile Approved");
                                 sendNotification(model.getPhone(), "Profile Approved", "Your Profile is approved");
+
+                            }
+                        });
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+  private void rejectProfile(User model) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(UserList.this);
+        builder.setTitle("Alert");
+        builder.setMessage("Do you want to Reject profile? ");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mDatabase.child("Users").child(model.getPhone())
+                        .child("rejected").setValue(true)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+
+                                CommonUtils.showToast("Profile Rejected");
+                                sendNotification(model.getPhone(), "Profile Rejected", "Your Profile is Rejected");
 
                             }
                         });
@@ -112,7 +149,7 @@ public class UserList extends AppCompatActivity {
                                 "profile");
                         String key = "" + System.currentTimeMillis();
                         NotificationModel model = new NotificationModel(key, NotificationTitle,
-                                NotificationMessage, "payout", "https://icon-library.com/images/admin-icon-png/admin-icon-png-12.jpg", "admin", System.currentTimeMillis());
+                                NotificationMessage, "profile", "https://icon-library.com/images/admin-icon-png/admin-icon-png-12.jpg", "admin", System.currentTimeMillis());
                         mDatabase.child("Notifications").child(user.getPhone()).child(key).setValue(model);
                     }
                 }

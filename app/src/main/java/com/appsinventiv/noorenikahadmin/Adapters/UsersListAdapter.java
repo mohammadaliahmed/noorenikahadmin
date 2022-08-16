@@ -58,21 +58,32 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.View
         holder.name.setText(model.getName() + ", " + model.getAge());
         holder.details.setText("Education: " + model.getEducation() + "\n" + "City: " + model.getCity()
                 + "\nCast: " + model.getCast());
+        if (model.isRejected()) {
+            holder.status.setText("Rejected");
+            holder.status.setBackgroundResource(R.drawable.rejected);
+        } else {
 
-        if(model.isPaid()){
-            holder.status.setText("Active");
-            holder.status.setBackgroundResource(R.drawable.approved);
+            if (model.isPaid()) {
+                holder.status.setText("Active");
+                holder.status.setBackgroundResource(R.drawable.approved);
 
-        }else{
-            holder.status.setText("Pending");
-            holder.status.setBackgroundResource(R.drawable.pending);
+            } else {
+                holder.status.setText("Pending");
+                holder.status.setBackgroundResource(R.drawable.pending);
 
+            }
         }
 
         holder.approveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callback.onApproveProfile(model);
+            }
+        });
+        holder.rejectProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onRejectProfile(model);
             }
         });
     }
@@ -86,7 +97,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.View
 
         TextView date, status, name, phone, details;
         ImageView image;
-        Button approveProfile;
+        Button approveProfile, rejectProfile;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,12 +108,15 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.View
             name = itemView.findViewById(R.id.name);
             phone = itemView.findViewById(R.id.phone);
             details = itemView.findViewById(R.id.details);
+            rejectProfile = itemView.findViewById(R.id.rejectProfile);
 
         }
     }
 
     public interface UsersAdapterCallback {
         public void onApproveProfile(User model);
+
+        public void onRejectProfile(User model);
     }
 
 

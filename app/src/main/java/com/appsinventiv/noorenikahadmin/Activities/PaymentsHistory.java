@@ -52,7 +52,6 @@ public class PaymentsHistory extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setElevation(0);
         }
-
         recycler = findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         mDatabase = FirebaseDatabase.getInstance("https://noorenikah-default-rtdb.firebaseio.com/").getReference();
@@ -61,6 +60,11 @@ public class PaymentsHistory extends AppCompatActivity {
             public void onApprovePayment(PaymentsModel model) {
                 approvePayment(model);
 
+            }
+
+            @Override
+            public void onRejectedPayment(PaymentsModel model) {
+                rejectPayment(model);
             }
 
             @Override
@@ -128,6 +132,32 @@ public class PaymentsHistory extends AppCompatActivity {
         dialog.show();
     }
 
+    private void rejectPayment(PaymentsModel model) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PaymentsHistory.this);
+        builder.setTitle("Alert");
+        builder.setMessage("Do you want to Reject payment? ");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mDatabase.child("Payments").child(model.getPhone()).child(model.getId())
+                        .child("rejected").setValue(true)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                CommonUtils.showToast("Payment Rejected");
+                                sendNotification(model.getPhone(), "Payment Rejected",
+                                        "Your payment is rejected", "payment");
+                            }
+                        });
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void sendNotification(String phone, String payment_approved, String your_payment_is_approved, String type) {
         mDatabase.child("Users").child(phone).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -147,7 +177,8 @@ public class PaymentsHistory extends AppCompatActivity {
                                 "payment");
                         String key = "" + System.currentTimeMillis();
                         NotificationModel model = new NotificationModel(key, NotificationTitle,
-                                NotificationMessage, type, "https://icon-library.com/images/admin-icon-png/admin-icon-png-12.jpg",
+                                NotificationMessage, type,
+                                "https://icon-library.com/images/admin-icon-png/admin-icon-png-12.jpg",
                                 "admin", System.currentTimeMillis());
                         mDatabase.child("Notifications").child(user.getPhone()).child(key).setValue(model);
 

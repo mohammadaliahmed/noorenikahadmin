@@ -13,8 +13,16 @@ public class User implements Serializable {
     float height;
     String myReferralCode;
     HashMap<String,String> friends;
-    boolean paid;
+    boolean paid,rejected;
     public User() {
+    }
+
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
     }
 
     public String getReferralCode() {
