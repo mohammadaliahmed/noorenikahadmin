@@ -84,19 +84,22 @@
                 android:id="@+id/rejectPayment"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_margin="10dp"
+                android:textSize="12sp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_bg"
                 android:inputType="text"
                 android:padding="5dp"
-                android:text="Approve Payment"
+                android:text="Reject Payment"
                 android:textColor="#fff" />
 
             <Button
                 android:id="@+id/approvePayment"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
+                android:textSize="12sp"
+
                 android:layout_weight="1"
                 android:background="@drawable/btn_bg_green_light"
                 android:inputType="text"
@@ -108,7 +111,9 @@
                 android:id="@+id/approveProfile"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
+                android:textSize="12sp"
+
                 android:layout_weight="1"
                 android:background="@drawable/btn_bg_green"
                 android:inputType="text"
