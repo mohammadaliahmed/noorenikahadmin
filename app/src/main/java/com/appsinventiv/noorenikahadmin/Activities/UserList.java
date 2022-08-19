@@ -2,8 +2,11 @@ package com.appsinventiv.noorenikahadmin.Activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -39,11 +42,12 @@ public class UserList extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private List<User> itemList = new ArrayList();
     UsersListAdapter adapter;
+    EditText search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payments_history);
+        setContentView(R.layout.activity_users_list);
         this.setTitle("Users");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,6 +55,7 @@ public class UserList extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }
 
+        search = findViewById(R.id.search);
         recycler = findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         mDatabase = FirebaseDatabase.getInstance("https://noorenikah-default-rtdb.firebaseio.com/").getReference();
@@ -67,7 +72,23 @@ public class UserList extends AppCompatActivity {
         });
         recycler.setAdapter(adapter);
         getDatFromDB();
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                adapter.filter(s.toString());
+
+            }
+        });
 
     }
 

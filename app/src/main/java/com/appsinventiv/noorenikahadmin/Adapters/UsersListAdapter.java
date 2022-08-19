@@ -19,22 +19,30 @@ import com.appsinventiv.noorenikahadmin.R;
 import com.appsinventiv.noorenikahadmin.Utils.CommonUtils;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.ViewHolder> {
     Context context;
     List<User> itemList;
     UsersAdapterCallback callback;
+    private ArrayList<User> arrayList;
+
 
     public UsersListAdapter(Context context, List<User> itemList,
                             UsersAdapterCallback callback) {
         this.context = context;
         this.itemList = itemList;
         this.callback = callback;
+        this.arrayList = new ArrayList<>(itemList);
+
     }
 
     public void setItemList(List<User> itemList) {
         this.itemList = itemList;
+        arrayList.addAll(itemList);
+
         notifyDataSetChanged();
     }
 
@@ -56,7 +64,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.View
 
                 .into(holder.image);
         holder.name.setText(model.getName() + ", " + model.getAge());
-        holder.details.setText("Education: " + model.getEducation() + "\n" + "City: " + model.getCity()
+        holder.details.setText("Phone: " + model.getPhone() + "\n" + "Education: " + model.getEducation() + "\n" + "City: " + model.getCity()
                 + "\nCast: " + model.getCast());
         if (model.isRejected()) {
             holder.status.setText("Rejected");
@@ -91,6 +99,26 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.View
     @Override
     public int getItemCount() {
         return itemList.size();
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        itemList.clear();
+        if (charText.length() == 0) {
+            itemList.addAll(arrayList);
+        } else {
+            for (User item : arrayList) {
+                if (item.getName().toLowerCase().contains(charText) || item.getPhone().contains(charText)) {
+
+                    itemList.add(item);
+                }
+
+            }
+
+
+        }
+
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
