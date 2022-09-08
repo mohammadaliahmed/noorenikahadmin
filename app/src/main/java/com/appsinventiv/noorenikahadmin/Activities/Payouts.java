@@ -19,6 +19,7 @@ import com.appsinventiv.noorenikahadmin.Models.User;
 import com.appsinventiv.noorenikahadmin.R;
 import com.appsinventiv.noorenikahadmin.Utils.CommonUtils;
 import com.appsinventiv.noorenikahadmin.Utils.NotificationAsync;
+import com.appsinventiv.noorenikahadmin.Utils.NotificationInterface;
 import com.appsinventiv.noorenikahadmin.Utils.SharedPrefs;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Payouts extends AppCompatActivity {
+public class Payouts extends AppCompatActivity implements NotificationInterface {
 
 
     RecyclerView recycler;
@@ -181,4 +182,8 @@ public class Payouts extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onSent() {
+
+    }
 }
