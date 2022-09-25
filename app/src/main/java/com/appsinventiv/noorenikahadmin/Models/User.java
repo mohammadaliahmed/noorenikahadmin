@@ -8,13 +8,82 @@ public class User implements Serializable {
     String fcmKey;
     String livePicPath,  belonging, houseSize, city, houseAddress,
             nationality, fatherName, motherName, gender, jobOrBusiness,
-            maritalStatus, education, religion, cast, homeType,sect;
+            maritalStatus, education, religion, cast, homeType,sect,companyName,fatherOccupation,
+            motherOccupation,about;
     int age,income,brothers,sisters;
     float height;
     String myReferralCode;
-    HashMap<String,String> friends;
-    boolean paid,rejected;
+    HashMap<String,String> friends,blockedMe,iBlocked;
+    boolean paid=false;
+    boolean rejected;
+    boolean liked=false;
+    boolean phoneVerified;
+
     public User() {
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getFatherOccupation() {
+        return fatherOccupation;
+    }
+
+    public void setFatherOccupation(String fatherOccupation) {
+        this.fatherOccupation = fatherOccupation;
+    }
+
+    public String getMotherOccupation() {
+        return motherOccupation;
+    }
+
+    public void setMotherOccupation(String motherOccupation) {
+        this.motherOccupation = motherOccupation;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public HashMap<String, String> getBlockedMe() {
+        return blockedMe;
+    }
+
+    public void setBlockedMe(HashMap<String, String> blockedMe) {
+        this.blockedMe = blockedMe;
+    }
+
+    public HashMap<String, String> getiBlocked() {
+        return iBlocked;
+    }
+
+    public void setiBlocked(HashMap<String, String> iBlocked) {
+        this.iBlocked = iBlocked;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    public boolean isPhoneVerified() {
+        return phoneVerified;
+    }
+
+    public void setPhoneVerified(boolean phoneVerified) {
+        this.phoneVerified = phoneVerified;
     }
 
     public boolean isRejected() {

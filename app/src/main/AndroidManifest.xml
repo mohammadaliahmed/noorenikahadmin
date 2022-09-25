@@ -31,6 +31,7 @@
         <activity android:name=".Activities.UserList" />
         <activity android:name=".Activities.Payouts" />
         <activity android:name=".Activities.NotificationsActivity" />
+        <activity android:name=".Activities.AddPromotionBanner" />
 
 
         <service android:name="com.appsinventiv.noorenikahadmin.Utils.MyFirebaseMessagingService"

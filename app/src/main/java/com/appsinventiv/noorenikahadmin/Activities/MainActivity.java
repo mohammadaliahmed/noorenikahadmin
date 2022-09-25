@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.appsinventiv.noorenikahadmin.Models.PromotionBanner;
 import com.appsinventiv.noorenikahadmin.R;
 import com.appsinventiv.noorenikahadmin.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
-    CardView payments, users, payouts,notifications;
+    CardView payments, users, payouts, notifications, promotionBanner;
     private DatabaseReference mDatabase;
 
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         users = findViewById(R.id.users);
         notifications = findViewById(R.id.notifications);
+        promotionBanner = findViewById(R.id.promotionBanner);
         payouts = findViewById(R.id.payouts);
         payments = findViewById(R.id.payments);
         mDatabase = FirebaseDatabase.getInstance("https://noorenikah-default-rtdb.firebaseio.com/").getReference();
@@ -43,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, UserList.class));
+            }
+        });
+        promotionBanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AddPromotionBanner.class));
             }
         });
         payouts.setOnClickListener(new View.OnClickListener() {

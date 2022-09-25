@@ -6,7 +6,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -44,6 +47,8 @@ public class UserList extends AppCompatActivity implements NotificationInterface
     private List<User> itemList = new ArrayList();
     UsersListAdapter adapter;
     EditText search;
+    TextView userCount;
+    Button verofy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,8 @@ public class UserList extends AppCompatActivity implements NotificationInterface
             getSupportActionBar().setElevation(0);
         }
 
+        userCount = findViewById(R.id.userCount);
+        verofy = findViewById(R.id.verofy);
         search = findViewById(R.id.search);
         recycler = findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -90,6 +97,16 @@ public class UserList extends AppCompatActivity implements NotificationInterface
 
             }
         });
+//        verofy.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                for (User user : itemList) {
+//                    if (user.getPhone() != null) {
+//                        mDatabase.child("Users").child(user.getPhone()).child("phoneVerified").setValue(true);
+//                    }
+//                }
+//            }
+//        });
 
     }
 
@@ -100,9 +117,9 @@ public class UserList extends AppCompatActivity implements NotificationInterface
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                HashMap<String,Object> map=new HashMap<>();
-                map.put("rejected",false);
-                map.put("paid",true);
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("rejected", false);
+                map.put("paid", true);
 
                 mDatabase.child("Users").child(model.getPhone())
                         .updateChildren(map)
@@ -124,7 +141,7 @@ public class UserList extends AppCompatActivity implements NotificationInterface
         dialog.show();
     }
 
-  private void rejectProfile(User model) {
+    private void rejectProfile(User model) {
         AlertDialog.Builder builder = new AlertDialog.Builder(UserList.this);
         builder.setTitle("Alert");
         builder.setMessage("Do you want to Reject profile? ");
@@ -184,6 +201,7 @@ public class UserList extends AppCompatActivity implements NotificationInterface
         });
 
     }
+
     private void getDatFromDB() {
         mDatabase.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
@@ -196,15 +214,18 @@ public class UserList extends AppCompatActivity implements NotificationInterface
                             itemList.add(model);
                         }
                     }
+                    userCount.setText("Users: " + itemList.size());
                     adapter.setItemList(itemList);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
