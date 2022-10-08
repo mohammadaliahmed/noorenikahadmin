@@ -66,8 +66,24 @@ public class NotificationsActivity extends AppCompatActivity implements Notifica
                 } else if (message.getText().length() == 0) {
                     message.setError("Enter message");
                 } else {
-                    CommonUtils.showToast("Sending notifications");
-                    sendNotifcations();
+                    if (userList.size() > 0) {
+                        CommonUtils.showToast("Sending notifications");
+                        sendNotifcations();
+//                        String fcm = "eY06xizySdaBded0IKpqOl:APA91bGjWH_zP6EsTSqOlsDB9Gw1L9FK0Dqsa424AGO-4lz3wjtJw5B9kFbBMgUJMrIUh5dQab8yGez0VLrxlkZwUe3UOyaEt-rpW0OdHCLhwKhjNBOv7drm6fLtKzA5irrcPm6OpNQG";
+//
+//                        NotificationAsync notificationAsync = new NotificationAsync(NotificationsActivity.this);
+//                        String NotificationTitle = title.getText().toString();
+//                        String NotificationMessage = message.getText().toString();
+//                        notificationAsync.execute(
+//                                "ali",
+//                                fcm,
+//                                NotificationTitle,
+//                                NotificationMessage,
+//                                "admin",
+//                                "marketing");
+                    } else {
+                        CommonUtils.showToast("Please wait. Preparing to send notifications");
+                    }
                 }
 
             }
