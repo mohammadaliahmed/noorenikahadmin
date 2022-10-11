@@ -108,9 +108,13 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.View
             itemList.addAll(arrayList);
         } else {
             for (User item : arrayList) {
-                if (item.getName().toLowerCase().contains(charText) || item.getPhone().contains(charText)) {
+                try {
+                    if (item.getName().toLowerCase().contains(charText) || item.getPhone().contains(charText)) {
 
-                    itemList.add(item);
+                        itemList.add(item);
+                    }
+                }catch (Exception e){
+
                 }
 
             }

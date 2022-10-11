@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
-    CardView payments, users, payouts, notifications, promotionBanner;
+    CardView payments, users, payouts, notifications, promotionBanner,posts;
     private DatabaseReference mDatabase;
 
 
@@ -30,11 +30,21 @@ public class MainActivity extends AppCompatActivity {
         this.setTitle("Dashboard");
         getSupportActionBar().setElevation(0);
         users = findViewById(R.id.users);
+        posts = findViewById(R.id.posts);
         notifications = findViewById(R.id.notifications);
         promotionBanner = findViewById(R.id.promotionBanner);
         payouts = findViewById(R.id.payouts);
         payments = findViewById(R.id.payments);
         mDatabase = FirebaseDatabase.getInstance("https://noorenikah-default-rtdb.firebaseio.com/").getReference();
+
+        posts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PaymentsHistory.class));
+
+            }
+        });
+
         payments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

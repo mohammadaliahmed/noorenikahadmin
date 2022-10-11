@@ -14,20 +14,32 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.appsinventiv.noorenikahadmin.Models.Data;
+import com.appsinventiv.noorenikahadmin.Models.SendNotificationModel;
 import com.appsinventiv.noorenikahadmin.Models.User;
 import com.appsinventiv.noorenikahadmin.R;
+import com.appsinventiv.noorenikahadmin.Utils.AppConfig;
 import com.appsinventiv.noorenikahadmin.Utils.CommonUtils;
 import com.appsinventiv.noorenikahadmin.Utils.Constants;
 import com.appsinventiv.noorenikahadmin.Utils.NotificationAsync;
 import com.appsinventiv.noorenikahadmin.Utils.NotificationInterface;
+import com.appsinventiv.noorenikahadmin.Utils.SharedPrefs;
+import com.appsinventiv.noorenikahadmin.Utils.UserClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NotificationsActivity extends AppCompatActivity implements NotificationInterface {
 
@@ -69,18 +81,6 @@ public class NotificationsActivity extends AppCompatActivity implements Notifica
                     if (userList.size() > 0) {
                         CommonUtils.showToast("Sending notifications");
                         sendNotifcations();
-//                        String fcm = "eY06xizySdaBded0IKpqOl:APA91bGjWH_zP6EsTSqOlsDB9Gw1L9FK0Dqsa424AGO-4lz3wjtJw5B9kFbBMgUJMrIUh5dQab8yGez0VLrxlkZwUe3UOyaEt-rpW0OdHCLhwKhjNBOv7drm6fLtKzA5irrcPm6OpNQG";
-//
-//                        NotificationAsync notificationAsync = new NotificationAsync(NotificationsActivity.this);
-//                        String NotificationTitle = title.getText().toString();
-//                        String NotificationMessage = message.getText().toString();
-//                        notificationAsync.execute(
-//                                "ali",
-//                                fcm,
-//                                NotificationTitle,
-//                                NotificationMessage,
-//                                "admin",
-//                                "marketing");
                     } else {
                         CommonUtils.showToast("Please wait. Preparing to send notifications");
                     }
@@ -88,8 +88,6 @@ public class NotificationsActivity extends AppCompatActivity implements Notifica
 
             }
         });
-
-
         getUsersFromDb();
 
     }
@@ -117,20 +115,52 @@ public class NotificationsActivity extends AppCompatActivity implements Notifica
     }
 
     private void sendNotifcations() {
-        for (String fcm : userList) {
+        progress.setVisibility(View.VISIBLE);
+        Data data = new Data(title.getText().toString(), message.getText().toString(),
+                "admin", "marketing");
+        SendNotificationModel model = new SendNotificationModel(userList.get(count),
+                data);
+        UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
 
-            NotificationAsync notificationAsync = new NotificationAsync(NotificationsActivity.this);
-            String NotificationTitle = title.getText().toString();
-            String NotificationMessage = message.getText().toString();
-            notificationAsync.execute(
-                    "ali",
-                    fcm,
-                    NotificationTitle,
-                    NotificationMessage,
-                    "admin",
-                    "marketing");
-        }
+        Call<ResponseBody> call = getResponse.sendNotification(model, AppConfig.key);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                count++;
+                if (count < userList.size()) {
+                    counter.setText("Sent to: " + count + "/" + userList.size());
+                    sendNotifcations();
+                } else {
+                    CommonUtils.showToast("Notification sent to all");
+                    progress.setVisibility(View.GONE);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
     }
+
+
+//        for (String fcm : userList) {
+//
+//            NotificationAsync notificationAsync = new NotificationAsync(NotificationsActivity.this);
+//            String NotificationTitle = title.getText().toString();
+//            String NotificationMessage = message.getText().toString();
+//            notificationAsync.execute(
+//                    "ali",
+//                    fcm,
+//                    NotificationTitle,
+//                    NotificationMessage,
+//                    "admin",
+//                    "marketing");
+//        }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
