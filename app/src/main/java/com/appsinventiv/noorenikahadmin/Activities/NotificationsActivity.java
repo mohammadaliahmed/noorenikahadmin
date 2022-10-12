@@ -1,8 +1,6 @@
 package com.appsinventiv.noorenikahadmin.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,19 +19,13 @@ import com.appsinventiv.noorenikahadmin.R;
 import com.appsinventiv.noorenikahadmin.Utils.AppConfig;
 import com.appsinventiv.noorenikahadmin.Utils.CommonUtils;
 import com.appsinventiv.noorenikahadmin.Utils.Constants;
-import com.appsinventiv.noorenikahadmin.Utils.NotificationAsync;
-import com.appsinventiv.noorenikahadmin.Utils.NotificationInterface;
-import com.appsinventiv.noorenikahadmin.Utils.SharedPrefs;
 import com.appsinventiv.noorenikahadmin.Utils.UserClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -41,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NotificationsActivity extends AppCompatActivity implements NotificationInterface {
+public class NotificationsActivity extends AppCompatActivity {
 
     Button send;
     EditText message;
@@ -178,9 +170,5 @@ public class NotificationsActivity extends AppCompatActivity implements Notifica
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onSent() {
 
-
-    }
 }

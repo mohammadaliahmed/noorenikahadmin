@@ -33,6 +33,8 @@
         <activity android:name=".Activities.NotificationsActivity" />
         <activity android:name=".Activities.AddPromotionBanner" />
         <activity android:name=".Activities.ListOfMatchMakers" />
+        <activity android:name=".Activities.MatchMakerProfile" />
+        <activity android:name=".Activities.PostLists" />
 
 
         <service android:name="com.appsinventiv.noorenikahadmin.Utils.MyFirebaseMessagingService"

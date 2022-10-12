@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,16 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appsinventiv.noorenikahadmin.Adapters.PaymentHistoryAdapter;
 import com.appsinventiv.noorenikahadmin.Adapters.UsersListAdapter;
 import com.appsinventiv.noorenikahadmin.Models.NotificationModel;
-import com.appsinventiv.noorenikahadmin.Models.PaymentsModel;
 import com.appsinventiv.noorenikahadmin.Models.User;
 import com.appsinventiv.noorenikahadmin.R;
 import com.appsinventiv.noorenikahadmin.Utils.CommonUtils;
 import com.appsinventiv.noorenikahadmin.Utils.NotificationAsync;
-import com.appsinventiv.noorenikahadmin.Utils.NotificationInterface;
-import com.appsinventiv.noorenikahadmin.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,12 +30,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class UserList extends AppCompatActivity implements NotificationInterface {
+public class UserList extends AppCompatActivity  {
 
     RecyclerView recycler;
     private DatabaseReference mDatabase;
@@ -243,8 +236,5 @@ public class UserList extends AppCompatActivity implements NotificationInterface
     }
 
 
-    @Override
-    public void onSent() {
 
-    }
 }

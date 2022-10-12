@@ -8,21 +8,27 @@
         <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/drawable/pending.xml" value="0.1835" />
         <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/drawable/rejected.xml" value="0.1835" />
         <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/layout/activity_chat_screen.xml" value="0.20416666666666666" />
-        <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/layout/activity_list_of_match_makers.xml" value="0.20416666666666666" />
-        <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/layout/activity_notifications.xml" value="0.2" />
+        <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/layout/activity_payments_history.xml" value="0.203125" />
         <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/layout/activity_splash.xml" value="0.20416666666666666" />
         <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/layout/payment_history_item_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/android projects/noorenikah - admin/app/src/main/res/layout/user_item_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/noorenikahadmin/app/src/main/res/drawable/approved.xml" value="0.1305" />
+        <entry key="..\:/noorenikahadmin/app/src/main/res/drawable/btn_bg.xml" value="0.1305" />
+        <entry key="..\:/noorenikahadmin/app/src/main/res/layout/activity_list_of_match_makers.xml" value="0.20416666666666666" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/noorenikahadmin/app/src/main/res/layout/activity_match_maker_profile.xml" value="0.20416666666666666" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/layout/activity_notifications.xml" value="0.20416666666666666" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/layout/activity_payouts.xml" value="0.203125" />
+        <entry key="..\:/noorenikahadmin/app/src/main/res/layout/activity_posts_list.xml" value="0.20416666666666666" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/layout/activity_promtional_banner.xml" value="0.203125" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/layout/activity_use_this.xml" value="0.20416666666666666" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/layout/activity_users_list.xml" value="0.19907407407407407" />
+        <entry key="..\:/noorenikahadmin/app/src/main/res/layout/match_maker_item_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/layout/payment_history_item_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/layout/payout_history_item_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/noorenikahadmin/app/src/main/res/layout/post_item_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/noorenikahadmin/app/src/main/res/layout/profile_item_layout.xml" value="0.1" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/layout/user_item_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/menu/main_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/noorenikahadmin/app/src/main/res/menu/search.xml" value="0.20416666666666666" />
