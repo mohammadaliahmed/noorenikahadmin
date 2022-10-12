@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
-    CardView payments, users, payouts, notifications, promotionBanner,posts;
+    CardView payments, users, payouts, notifications, promotionBanner, posts, matchMakers;
     private DatabaseReference mDatabase;
 
 
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         users = findViewById(R.id.users);
         posts = findViewById(R.id.posts);
+        matchMakers = findViewById(R.id.matchMakers);
         notifications = findViewById(R.id.notifications);
         promotionBanner = findViewById(R.id.promotionBanner);
         payouts = findViewById(R.id.payouts);
@@ -41,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, PaymentsHistory.class));
+
+            }
+        });
+        matchMakers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ListOfMatchMakers.class));
 
             }
         });
