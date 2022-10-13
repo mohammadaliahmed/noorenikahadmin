@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.appsinventiv.noorenikahadmin.Activities.MainActivity;
+import com.appsinventiv.noorenikahadmin.Activities.MatchMakerProfile;
 import com.appsinventiv.noorenikahadmin.Activities.PaymentsHistory;
 import com.appsinventiv.noorenikahadmin.Activities.Payouts;
 import com.appsinventiv.noorenikahadmin.R;
@@ -73,12 +74,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (type.equals("payment")) {
             resultIntent = new Intent(this, PaymentsHistory.class);
 
-        }
-        else if (type.equals("payout")) {
+        } else if (type.equals("payout")) {
             resultIntent = new Intent(this, Payouts.class);
 
+        } else if (type.equals("matchmaker")) {
+            resultIntent = new Intent(this, MatchMakerProfile.class);
+            resultIntent.putExtra("matchMakerId", Id);
         }
-//        }
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this,

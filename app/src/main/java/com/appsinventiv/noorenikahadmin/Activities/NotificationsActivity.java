@@ -19,6 +19,7 @@ import com.appsinventiv.noorenikahadmin.R;
 import com.appsinventiv.noorenikahadmin.Utils.AppConfig;
 import com.appsinventiv.noorenikahadmin.Utils.CommonUtils;
 import com.appsinventiv.noorenikahadmin.Utils.Constants;
+import com.appsinventiv.noorenikahadmin.Utils.NotificationAsync;
 import com.appsinventiv.noorenikahadmin.Utils.UserClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -76,6 +77,19 @@ public class NotificationsActivity extends AppCompatActivity {
                     } else {
                         CommonUtils.showToast("Please wait. Preparing to send notifications");
                     }
+//                    String fcm="fzY8TWtCQAeEky_MFfSuj9:APA91bE3akMMM_FTc_b8J2mWThDsJEYm2X1NY5oGf4nA50SwYerfMOV1lC4Wznwwh1sa4IZWIniLRszADXKG-07CcpOonvCJFOUASCmepIEr-smjmntesC6DPOecpajkhCau_ZVs8QXm";
+//
+//                    NotificationAsync notificationAsync = new NotificationAsync(NotificationsActivity.this);
+//                    String NotificationTitle = title.getText().toString();
+//                    String NotificationMessage = message.getText().toString();
+//                    notificationAsync.execute(
+//                            "ali",
+//                            fcm,
+//                            NotificationTitle,
+//                            NotificationMessage,
+//                            "admin",
+//                            "marketing");
+//
                 }
 
             }
