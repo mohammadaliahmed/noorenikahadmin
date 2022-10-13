@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.appsinventiv.noorenikahadmin.Models.Data;
+import com.appsinventiv.noorenikahadmin.Models.NewUserModel;
+import com.appsinventiv.noorenikahadmin.Models.NotificationModel;
 import com.appsinventiv.noorenikahadmin.Models.SendNotificationModel;
 import com.appsinventiv.noorenikahadmin.Models.User;
 import com.appsinventiv.noorenikahadmin.R;
@@ -20,6 +22,7 @@ import com.appsinventiv.noorenikahadmin.Utils.AppConfig;
 import com.appsinventiv.noorenikahadmin.Utils.CommonUtils;
 import com.appsinventiv.noorenikahadmin.Utils.Constants;
 import com.appsinventiv.noorenikahadmin.Utils.NotificationAsync;
+import com.appsinventiv.noorenikahadmin.Utils.SharedPrefs;
 import com.appsinventiv.noorenikahadmin.Utils.UserClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,7 +46,7 @@ public class NotificationsActivity extends AppCompatActivity {
     int count = 0;
     private DatabaseReference mDatabase;
     TextView counter;
-    private List<String> userList = new ArrayList<>();
+    private List<NewUserModel> userList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,9 +107,9 @@ public class NotificationsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    User user = snapshot.getValue(User.class);
+                    NewUserModel user = snapshot.getValue(NewUserModel.class);
                     if (user != null && user.getFcmKey() != null) {
-                        userList.add(user.getFcmKey());
+                        userList.add(user);
                     }
                 }
             }
@@ -121,10 +124,15 @@ public class NotificationsActivity extends AppCompatActivity {
     }
 
     private void sendNotifcations() {
+        String key = "" + System.currentTimeMillis();
+        NotificationModel notificationModel = new NotificationModel(key, title.getText().toString(),
+                message.getText().toString(), "marketing", SharedPrefs.getUser().getLivePicPath(),
+                "admin", System.currentTimeMillis());
+        mDatabase.child("Notifications").child(userList.get(count).getPhone()).child(key).setValue(notificationModel);
         progress.setVisibility(View.VISIBLE);
         Data data = new Data(title.getText().toString(), message.getText().toString(),
                 "admin", "marketing");
-        SendNotificationModel model = new SendNotificationModel(userList.get(count),
+        SendNotificationModel model = new SendNotificationModel(userList.get(count).getFcmKey(),
                 data);
         UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
 
@@ -149,6 +157,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 
