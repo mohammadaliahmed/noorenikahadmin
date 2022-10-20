@@ -19,24 +19,27 @@
             android:inputType="textCapWords" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
+        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="20dp"
+        android:gravity="left|top"
+        android:scrollbars="vertical"
+        android:background="@drawable/edit_text_curved"
+        android:hint="Message"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="8"
+        android:lines="5"
+        android:padding="5dp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Message"
-            android:inputType="textCapWords" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/send"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:layout_margin="20dp"
         android:background="@drawable/btn_bg"
         android:inputType="textCapWords"
@@ -47,8 +50,9 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_gravity="center"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/counter"
@@ -56,6 +60,29 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
+        android:visibility="gone"
         android:textColor="#000"
         android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@drawable/btn_bg"
+        android:inputType="textCapWords"
+        android:text="Send Notifications"
+        android:textColor="#fff" />
+
+    <Button
+        android:id="@+id/stop"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@drawable/btn_bg"
+        android:inputType="textCapWords"
+        android:text="Stop Sending Notification"
+        android:textColor="#fff" />
 </LinearLayout>

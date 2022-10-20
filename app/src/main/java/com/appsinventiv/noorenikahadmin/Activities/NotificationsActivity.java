@@ -1,5 +1,6 @@
 package com.appsinventiv.noorenikahadmin.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.appsinventiv.noorenikahadmin.Models.Data;
 import com.appsinventiv.noorenikahadmin.Models.NewUserModel;
@@ -21,6 +23,7 @@ import com.appsinventiv.noorenikahadmin.R;
 import com.appsinventiv.noorenikahadmin.Utils.AppConfig;
 import com.appsinventiv.noorenikahadmin.Utils.CommonUtils;
 import com.appsinventiv.noorenikahadmin.Utils.Constants;
+import com.appsinventiv.noorenikahadmin.Utils.ForegroundService;
 import com.appsinventiv.noorenikahadmin.Utils.NotificationAsync;
 import com.appsinventiv.noorenikahadmin.Utils.SharedPrefs;
 import com.appsinventiv.noorenikahadmin.Utils.UserClient;
@@ -46,7 +49,7 @@ public class NotificationsActivity extends AppCompatActivity {
     int count = 0;
     private DatabaseReference mDatabase;
     TextView counter;
-    private List<NewUserModel> userList = new ArrayList<>();
+    private List<String> userList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,31 @@ public class NotificationsActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         counter = findViewById(R.id.counter);
         message = findViewById(R.id.message);
+        mDatabase = Constants.M_DATABASE;
+        Button btnStartService = findViewById(R.id.start);
+        Button btnStopService = findViewById(R.id.stop);
+        btnStartService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (title.getText().length() == 0) {
+                    title.setError("Enter Title");
+                } else if (message.getText().length() == 0) {
+                    message.setError("Enter message");
+                } else {
+                    Intent serviceIntent = new Intent(NotificationsActivity.this, ForegroundService.class);
+                    serviceIntent.putExtra("notificationTitle", title.getText().toString());
+                    serviceIntent.putExtra("notificationMessage", message.getText().toString());
+                    ContextCompat.startForegroundService(NotificationsActivity.this, serviceIntent);
+                }
+            }
+        });
+        btnStopService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent serviceIntent = new Intent(NotificationsActivity.this, ForegroundService.class);
+                stopService(serviceIntent);
+            }
+        });
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +108,8 @@ public class NotificationsActivity extends AppCompatActivity {
                     } else {
                         CommonUtils.showToast("Please wait. Preparing to send notifications");
                     }
-//                    String fcm="fzY8TWtCQAeEky_MFfSuj9:APA91bE3akMMM_FTc_b8J2mWThDsJEYm2X1NY5oGf4nA50SwYerfMOV1lC4Wznwwh1sa4IZWIniLRszADXKG-07CcpOonvCJFOUASCmepIEr-smjmntesC6DPOecpajkhCau_ZVs8QXm";
+//                    String fcm="fzY8TW
+//                    tCQAeEky_MFfSuj9:APA91bE3akMMM_FTc_b8J2mWThDsJEYm2X1NY5oGf4nA50SwYerfMOV1lC4Wznwwh1sa4IZWIniLRszADXKG-07CcpOonvCJFOUASCmepIEr-smjmntesC6DPOecpajkhCau_ZVs8QXm";
 //
 //                    NotificationAsync notificationAsync = new NotificationAsync(NotificationsActivity.this);
 //                    String NotificationTitle = title.getText().toString();
@@ -97,66 +126,64 @@ public class NotificationsActivity extends AppCompatActivity {
 
             }
         });
-        getUsersFromDb();
+//        getUsersFromDb();
 
     }
 
     private void getUsersFromDb() {
-        mDatabase = Constants.M_DATABASE;
-        mDatabase.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    NewUserModel user = snapshot.getValue(NewUserModel.class);
-                    if (user != null && user.getFcmKey() != null) {
-                        userList.add(user);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        for(int i=0;i<635;i++){
+            userList.add("dGk8WYpHR-ujIzdUU-9nHF:APA91bHtt6sp8dbY6S5XLRrj6F-maN9_AcYClpWU8TTXWE57nFMptR28xEq5RRgcvYS6mkDulEfCrc65sTzri9A_O-MKLPurWjyBksqv2zj6hB1K5YAcLDCSMx9mvwRsiZ8as6bQt_i1");
+        }
+//        mDatabase.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    NewUserModel user = snapshot.getValue(NewUserModel.class);
+//                    if (user != null && user.getFcmKey() != null) {
+//                        userList.add(user.getFcmKey());
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
     }
 
     private void sendNotifcations() {
-        String key = "" + System.currentTimeMillis();
-        NotificationModel notificationModel = new NotificationModel(key, title.getText().toString(),
-                message.getText().toString(), "marketing", SharedPrefs.getUser().getLivePicPath(),
-                "admin", System.currentTimeMillis());
-        mDatabase.child("Notifications").child(userList.get(count).getPhone()).child(key).setValue(notificationModel);
-        progress.setVisibility(View.VISIBLE);
-        Data data = new Data(title.getText().toString(), message.getText().toString(),
-                "admin", "marketing");
-        SendNotificationModel model = new SendNotificationModel(userList.get(count).getFcmKey(),
-                data);
-        UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
+        send.setEnabled(false);
+        try {
+            progress.setVisibility(View.VISIBLE);
+            Data data = new Data(title.getText().toString(), message.getText().toString(),
+                    "admin", "marketing");
+            SendNotificationModel model = new SendNotificationModel(userList.get(count),
+                    data);
+            UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
 
-        Call<ResponseBody> call = getResponse.sendNotification(model, AppConfig.key);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                count++;
-                if (count < userList.size()) {
-                    counter.setText("Sent to: " + count + "/" + userList.size());
-                    sendNotifcations();
-                } else {
-                    CommonUtils.showToast("Notification sent to all");
-                    progress.setVisibility(View.GONE);
-
+            Call<ResponseBody> call = getResponse.sendNotification(model, AppConfig.key);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    count++;
+                    if (count < userList.size()) {
+                        counter.setText("Sent to: " + count + "/" + userList.size());
+                        sendNotifcations();
+                    } else {
+                        CommonUtils.showToast("Notification sent to all");
+                        progress.setVisibility(View.GONE);
+                    }
                 }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                }
+            });
+        }catch (Exception e){
 
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
+        }
 
 
     }

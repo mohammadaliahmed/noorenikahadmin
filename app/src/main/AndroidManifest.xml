@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.appsinventiv.noorenikahadmin">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -26,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".Utils.ForegroundService"
+            android:enabled="true"
+            android:exported="true"></service>
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.PaymentsHistory" />
         <activity android:name=".Activities.UserList" />

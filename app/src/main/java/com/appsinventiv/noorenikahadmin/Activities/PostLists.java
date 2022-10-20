@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.ArraySet;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,8 @@ public class PostLists extends AppCompatActivity {
     private List<PostModel> itemList = new ArrayList<>();
     RecyclerView recycler;
     PostsAdapter adapter;
+    private List<PostModel> unApprovedList=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +68,7 @@ public class PostLists extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                mDatabase.child("Posts").child(model.getId()).child("approved").setValue(false);
+                mDatabase.child("Posts").child(model.getId()).removeValue();
                 getDataFromDB();
 
             }
@@ -84,12 +87,22 @@ public class PostLists extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     PostModel model = snapshot.getValue(PostModel.class);
-                    if (model != null && model.isApproved()) {
+                    if (model != null &&  model.getId()!=null && model.isApproved()) {
                         itemList.add(model);
+                    }else{
+//                        unApprovedList.add(model);
                     }
                 }
                 Collections.reverse(itemList);
                 adapter.setItemList(itemList);
+//                if(unApprovedList.size()>0){
+//                    for(PostModel pmodel:unApprovedList) {
+//                        if (pmodel.getId() != null) {
+//                            mDatabase.child("Posts").child(pmodel.getId()).removeValue();
+//                        }
+//                    }
+//                }
+
 
             }
 
