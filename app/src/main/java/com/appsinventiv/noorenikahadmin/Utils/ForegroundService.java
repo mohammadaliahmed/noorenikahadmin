@@ -62,8 +62,32 @@ public class ForegroundService extends Service {
         //stopSelf();
         mDatabase = Constants.M_DATABASE;
         getDataOfUsers();
+//        testNotification();
 
         return START_NOT_STICKY;
+    }
+
+    private void testNotification() {
+        userList.clear();
+        mDatabase.child("Users").child("3142288492").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                NewUserModel user = dataSnapshot.getValue(NewUserModel.class);
+                if (user != null && user.getFcmKey() != null) {
+                    userList.add(user.getFcmKey());
+                }
+
+                if (userList.size() > 0) {
+                    sendNotifcations();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private Notification getMyActivityNotification() {
@@ -85,11 +109,7 @@ public class ForegroundService extends Service {
 
 
     private void getDataOfUsers() {
-//        for (int i = 0; i < 10; i++) {
-//            userList.add("dGk8WYpHR-ujIzdUU-9nHF:APA91bHtt6sp8dbY6S5XLRrj6F-maN9_AcYClpWU8TTXWE57nFMptR28xEq5RRgcvYS6mkDulEfCrc65sTzri9A_O-MKLPurWjyBksqv2zj6hB1K5YAcLDCSMx9mvwRsiZ8as6bQt_i1");
-//        }
-//        sendNotifcations();
-//
+
         mDatabase.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

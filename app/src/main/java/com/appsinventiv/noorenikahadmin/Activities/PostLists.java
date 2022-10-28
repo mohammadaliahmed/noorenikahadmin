@@ -89,7 +89,8 @@ public class PostLists extends AppCompatActivity {
                     PostModel model = snapshot.getValue(PostModel.class);
                     if (model != null &&  model.getId()!=null && model.isApproved()) {
                         itemList.add(model);
-                    }else{
+                    }
+                    else{
 //                        unApprovedList.add(model);
                     }
                 }

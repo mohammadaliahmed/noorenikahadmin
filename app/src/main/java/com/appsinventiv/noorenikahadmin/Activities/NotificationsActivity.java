@@ -94,114 +94,12 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         });
 
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (title.getText().length() == 0) {
-                    title.setError("Enter Title");
-                } else if (message.getText().length() == 0) {
-                    message.setError("Enter message");
-                } else {
-                    if (userList.size() > 0) {
-                        CommonUtils.showToast("Sending notifications");
-                        sendNotifcations();
-                    } else {
-                        CommonUtils.showToast("Please wait. Preparing to send notifications");
-                    }
-//                    String fcm="fzY8TW
-//                    tCQAeEky_MFfSuj9:APA91bE3akMMM_FTc_b8J2mWThDsJEYm2X1NY5oGf4nA50SwYerfMOV1lC4Wznwwh1sa4IZWIniLRszADXKG-07CcpOonvCJFOUASCmepIEr-smjmntesC6DPOecpajkhCau_ZVs8QXm";
-//
-//                    NotificationAsync notificationAsync = new NotificationAsync(NotificationsActivity.this);
-//                    String NotificationTitle = title.getText().toString();
-//                    String NotificationMessage = message.getText().toString();
-//                    notificationAsync.execute(
-//                            "ali",
-//                            fcm,
-//                            NotificationTitle,
-//                            NotificationMessage,
-//                            "admin",
-//                            "marketing");
-//
-                }
-
-            }
-        });
-//        getUsersFromDb();
-
-    }
-
-    private void getUsersFromDb() {
-        for(int i=0;i<635;i++){
-            userList.add("dGk8WYpHR-ujIzdUU-9nHF:APA91bHtt6sp8dbY6S5XLRrj6F-maN9_AcYClpWU8TTXWE57nFMptR28xEq5RRgcvYS6mkDulEfCrc65sTzri9A_O-MKLPurWjyBksqv2zj6hB1K5YAcLDCSMx9mvwRsiZ8as6bQt_i1");
-        }
-//        mDatabase.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    NewUserModel user = snapshot.getValue(NewUserModel.class);
-//                    if (user != null && user.getFcmKey() != null) {
-//                        userList.add(user.getFcmKey());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
-
-    }
-
-    private void sendNotifcations() {
-        send.setEnabled(false);
-        try {
-            progress.setVisibility(View.VISIBLE);
-            Data data = new Data(title.getText().toString(), message.getText().toString(),
-                    "admin", "marketing");
-            SendNotificationModel model = new SendNotificationModel(userList.get(count),
-                    data);
-            UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);
-
-            Call<ResponseBody> call = getResponse.sendNotification(model, AppConfig.key);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    count++;
-                    if (count < userList.size()) {
-                        counter.setText("Sent to: " + count + "/" + userList.size());
-                        sendNotifcations();
-                    } else {
-                        CommonUtils.showToast("Notification sent to all");
-                        progress.setVisibility(View.GONE);
-                    }
-                }
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                }
-            });
-        }catch (Exception e){
-
-        }
-
 
     }
 
 
-//        for (String fcm : userList) {
-//
-//            NotificationAsync notificationAsync = new NotificationAsync(NotificationsActivity.this);
-//            String NotificationTitle = title.getText().toString();
-//            String NotificationMessage = message.getText().toString();
-//            notificationAsync.execute(
-//                    "ali",
-//                    fcm,
-//                    NotificationTitle,
-//                    NotificationMessage,
-//                    "admin",
-//                    "marketing");
-//        }
+
+
 
 
     @Override
