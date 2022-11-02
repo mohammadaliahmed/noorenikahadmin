@@ -61,15 +61,15 @@ public class ForegroundService extends Service {
 
         //stopSelf();
         mDatabase = Constants.M_DATABASE;
-        getDataOfUsers();
-//        testNotification();
+//        getDataOfUsers();
+        testNotification();
 
         return START_NOT_STICKY;
     }
 
     private void testNotification() {
         userList.clear();
-        mDatabase.child("Users").child("3142288492").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Users").child("3158000333").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 NewUserModel user = dataSnapshot.getValue(NewUserModel.class);

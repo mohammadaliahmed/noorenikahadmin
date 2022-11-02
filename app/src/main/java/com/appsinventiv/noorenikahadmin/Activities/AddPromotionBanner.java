@@ -7,16 +7,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.collection.ArraySet;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.appsinventiv.noorenikahadmin.Adapters.PromotionalBannersAdapter;
 import com.appsinventiv.noorenikahadmin.Models.PaymentsModel;
 import com.appsinventiv.noorenikahadmin.Models.PromotionBanner;
 import com.appsinventiv.noorenikahadmin.R;
@@ -39,17 +45,23 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AddPromotionBanner extends AppCompatActivity {
-    ImageView image, uploadedImage;
-    EditText url, uploadUrl;
+    ImageView image;
+    EditText url;
     Button save;
     private ArrayList<String> mSelected = new ArrayList<>();
     private String imageUrl;
     ProgressBar progress;
     DatabaseReference mDatabase;
-    CardView uploadedLayout;
+
+    String placement;
+    RadioButton postsScreen, usersScreen;
+    RecyclerView recycler;
+    private List<PromotionBanner> itemList = new ArrayList<>();
+    PromotionalBannersAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +73,39 @@ public class AddPromotionBanner extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setElevation(0);
         }
+        adapter = new PromotionalBannersAdapter(this, itemList);
+
         mDatabase = Constants.M_DATABASE;
         this.setTitle("Add Promotion Banner");
+        postsScreen = findViewById(R.id.postsScreen);
+        recycler = findViewById(R.id.recycler);
+        usersScreen = findViewById(R.id.usersScreen);
         save = findViewById(R.id.save);
-        uploadedLayout = findViewById(R.id.uploadedLayout);
-        uploadedImage = findViewById(R.id.uploadedImage);
-        uploadUrl = findViewById(R.id.uploadUrl);
+
         progress = findViewById(R.id.progress);
         url = findViewById(R.id.url);
         image = findViewById(R.id.image);
+
+        postsScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked()) {
+                    if (isChecked) {
+                        placement = "postsScreen";
+                    }
+                }
+            }
+        });
+        usersScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked()) {
+                    if (isChecked) {
+                        placement = "usersScreen";
+                    }
+                }
+            }
+        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +123,6 @@ public class AddPromotionBanner extends AppCompatActivity {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                sendNotification();
 
                 Options options = Options.init()
                         .setRequestCode(23)                                           //Request code for activity results
@@ -99,6 +134,8 @@ public class AddPromotionBanner extends AppCompatActivity {
                 Pix.start(AddPromotionBanner.this, options);
             }
         });
+        recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recycler.setAdapter(adapter);
         getDataFromDb();
 
     }
@@ -108,13 +145,13 @@ public class AddPromotionBanner extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    uploadedLayout.setVisibility(View.VISIBLE);
-                    PromotionBanner promotionBanner = dataSnapshot.getValue(PromotionBanner.class);
-                    Glide.with(AddPromotionBanner.this).load(promotionBanner.getImgUrl()).into(uploadedImage);
-                    uploadUrl.setText(promotionBanner.getUrl());
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        PromotionBanner promotionBanner = snapshot.getValue(PromotionBanner.class);
+                        itemList.add(promotionBanner);
+                    }
+                    adapter.setItemList(itemList);
 
                 } else {
-                    uploadedLayout.setVisibility(View.GONE);
                 }
             }
 
@@ -146,14 +183,16 @@ public class AddPromotionBanner extends AppCompatActivity {
                                 firebaseUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        PromotionBanner model = new PromotionBanner(url.getText().toString(), uri.toString());
-                                        mDatabase.child("PromotionalBanner").setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                CommonUtils.showToast("Uploaded");
-                                                progress.setVisibility(View.GONE);
-                                            }
-                                        });
+                                        PromotionBanner model =
+                                                new PromotionBanner(url.getText().toString(), uri.toString(), placement);
+                                        mDatabase.child("PromotionalBanner").child(placement)
+                                                .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        CommonUtils.showToast("Uploaded");
+                                                        progress.setVisibility(View.GONE);
+                                                    }
+                                                });
                                     }
                                 });
 
