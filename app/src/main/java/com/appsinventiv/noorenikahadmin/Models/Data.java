@@ -17,13 +17,25 @@ public class Data {
     @SerializedName("Type")
     @Expose
     private String type;
+    @SerializedName("Image")
+    @Expose
+    private String image;
 
 
-    public Data(String title, String message, String id, String type) {
+    public Data(String title, String message, String id, String type, String image) {
         this.title = title;
         this.message = message;
         this.id = id;
         this.type = type;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getTitle() {

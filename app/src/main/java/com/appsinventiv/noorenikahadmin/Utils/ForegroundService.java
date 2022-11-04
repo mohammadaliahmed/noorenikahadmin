@@ -39,7 +39,7 @@ public class ForegroundService extends Service {
     private List<String> userList = new ArrayList<>();
     private Notification notification;
     DatabaseReference mDatabase;
-    String notificationMessage, notificationTitle;
+    String notificationMessage, notificationTitle,notificationImage;
     int count = 0;
     private static final int NOTIF_ID = 1;
 
@@ -53,6 +53,7 @@ public class ForegroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         notificationTitle = intent.getStringExtra("notificationTitle");
         notificationMessage = intent.getStringExtra("notificationMessage");
+        notificationImage = intent.getStringExtra("notificationImage");
         createNotificationChannel();
 
         startForeground(NOTIF_ID, getMyActivityNotification());
@@ -141,7 +142,7 @@ public class ForegroundService extends Service {
         mNotificationManager.notify(NOTIF_ID, notification);
         try {
             Data data = new Data(notificationTitle, notificationMessage,
-                    "admin", "marketing");
+                    "admin", "marketing",notificationImage);
             SendNotificationModel model = new SendNotificationModel(userList.get(count),
                     data);
             UserClient getResponse = AppConfig.getRetrofit().create(UserClient.class);

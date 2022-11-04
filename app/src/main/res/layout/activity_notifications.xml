@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_margin="10dp"
+        android:id="@+id/picImage"
+        android:layout_gravity="center"
+        android:src="@drawable/picked"
+        android:layout_height="100dp"/>
 
 
     <com.google.android.material.textfield.TextInputLayout

@@ -144,14 +144,19 @@ public class AddPromotionBanner extends AppCompatActivity {
         mDatabase.child("PromotionalBanner").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        PromotionBanner promotionBanner = snapshot.getValue(PromotionBanner.class);
-                        itemList.add(promotionBanner);
-                    }
-                    adapter.setItemList(itemList);
+                try {
+                    if (dataSnapshot.getValue() != null) {
 
-                } else {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            PromotionBanner promotionBanner = snapshot.getValue(PromotionBanner.class);
+                            itemList.add(promotionBanner);
+                        }
+                        adapter.setItemList(itemList);
+
+                    } else {
+                    }
+                } catch (Exception e) {
+
                 }
             }
 
