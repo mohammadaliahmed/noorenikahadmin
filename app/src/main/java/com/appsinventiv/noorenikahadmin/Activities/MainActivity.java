@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, PostLists.class));
+//                startActivity(new Intent(MainActivity.this, MarkChatsAsRead.class));
 
             }
         });

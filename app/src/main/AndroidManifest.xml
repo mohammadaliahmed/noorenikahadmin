@@ -40,6 +40,7 @@
         <activity android:name=".Activities.ListOfMatchMakers" />
         <activity android:name=".Activities.MatchMakerProfile" />
         <activity android:name=".Activities.PostLists" />
+        <activity android:name=".Activities.MarkChatsAsRead" />
 
 
         <service android:name="com.appsinventiv.noorenikahadmin.Utils.MyFirebaseMessagingService"

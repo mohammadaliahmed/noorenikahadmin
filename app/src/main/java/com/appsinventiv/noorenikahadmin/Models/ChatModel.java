@@ -2,7 +2,7 @@ package com.appsinventiv.noorenikahadmin.Models;
 
 public class ChatModel {
     String id, message, senderId, sendTo, name, picUrl, myName, myPic, hisName, hisPic,
-            myPhone, hisPhone;
+            myPhone, hisPhone,status;
     long time;
 
 
@@ -25,6 +25,14 @@ public class ChatModel {
         this.hisPic = hisPic;
         this.hisPhone = hisPhone;
         this.myPhone = myPhone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getMyPhone() {
