@@ -62,8 +62,8 @@ public class ForegroundService extends Service {
 
         //stopSelf();
         mDatabase = Constants.M_DATABASE;
-//        getDataOfUsers();
-        testNotification();
+        getDataOfUsers();
+//        testNotification();
 
         return START_NOT_STICKY;
     }
