@@ -57,8 +57,8 @@ public class AddPromotionBanner extends AppCompatActivity {
     ProgressBar progress;
     DatabaseReference mDatabase;
 
-    String placement;
-    RadioButton postsScreen, usersScreen;
+    String placement="postsScreen";
+    RadioButton postsScreen, usersScreen, chatScreen;
     RecyclerView recycler;
     private List<PromotionBanner> itemList = new ArrayList<>();
     PromotionalBannersAdapter adapter;
@@ -78,6 +78,7 @@ public class AddPromotionBanner extends AppCompatActivity {
         mDatabase = Constants.M_DATABASE;
         this.setTitle("Add Promotion Banner");
         postsScreen = findViewById(R.id.postsScreen);
+        chatScreen = findViewById(R.id.chatScreen);
         recycler = findViewById(R.id.recycler);
         usersScreen = findViewById(R.id.usersScreen);
         save = findViewById(R.id.save);
@@ -92,6 +93,16 @@ public class AddPromotionBanner extends AppCompatActivity {
                 if (buttonView.isChecked()) {
                     if (isChecked) {
                         placement = "postsScreen";
+                    }
+                }
+            }
+        });
+        chatScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked()) {
+                    if (isChecked) {
+                        placement = "chatScreen";
                     }
                 }
             }

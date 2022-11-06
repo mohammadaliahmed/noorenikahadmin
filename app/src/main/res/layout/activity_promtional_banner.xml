@@ -38,8 +38,8 @@
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/postsScreen"
@@ -54,6 +54,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Users Screen" />
+
+                <RadioButton
+                    android:id="@+id/chatScreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Chats Screen" />
             </RadioGroup>
 
             <Button
@@ -76,11 +83,11 @@
 
 
     </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>
